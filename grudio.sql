@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 11, 2017 at 05:11 PM
+-- Generation Time: Feb 11, 2017 at 06:44 PM
 -- Server version: 5.6.28-0ubuntu0.15.04.1
 -- PHP Version: 5.6.4-4ubuntu6.4
 
@@ -44,6 +44,8 @@ CREATE TABLE IF NOT EXISTS `songs` (
   `downvote_count` int(11) NOT NULL DEFAULT '0',
   `score` int(11) NOT NULL DEFAULT '0',
   `category_id` int(11) NOT NULL,
+  `url` varchar(500) NOT NULL,
+  `file_path` varchar(600) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `last_played` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created` datetime NOT NULL
