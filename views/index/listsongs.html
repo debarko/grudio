@@ -4,9 +4,21 @@
             {% include 'songs.html' %}
         </ul>
         <div id="playpause" class="current-song-wrapper" onclick="playPause()">
-            <button class="player-control-btn play">
-                <span class="player-control-icon"></span>
-            </button>
+            <div class="col-md-9 col-lg-9">
+                <button class="player-control-btn play">
+                    <span class="player-control-icon"></span>
+                </button>
+                <p>Oh let me go now! oh Seniorita!</p>
+            </div>
+            <div class="player-action col-md-3 col-lg-3">
+                <button class="upvote" data-songid="1" data-isupvoted="1">
+                    <span class="upvote-icon"></span>
+                </button>
+                <span class="button-divider"></span>
+                <button class="downvote" data-songid="1" data-downvoted="1">
+                    <span class="downvote-icon"></span>
+                </button>
+            </div>
         </div>
     </div>
     <div class="col-md-3 col-lg-3">
