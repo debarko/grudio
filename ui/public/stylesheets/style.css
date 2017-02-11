@@ -1,8 +1,22 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
 
-a {
-  color: #00B7FF;
+#header-wrapper {
+    height: 50px;
+    background: red;
+    z-index: 20;
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100%;
+}
+#leftmenu-wrapper {
+    background: purple;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 19;
+}
+#main-wrapper {
+    background: green;
 }
