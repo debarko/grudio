@@ -1,4 +1,7 @@
-
+html, body{
+	font-size: 14px;
+	font-family: Helvetica, Arial, sans-serif;
+}
 #header-wrapper {
     height: 60px;
     background: red;
