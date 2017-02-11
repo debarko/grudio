@@ -87,7 +87,7 @@ exports.syncPlaylist = function(req, res) {
 }
 
 function nextSong(req, cb) {
-    req.app.knexRef.raw('SELECT songs.id as id, songs.name as name, songs.url as song_url, songs.upvote_count as upvotes, songs.downvote_count as downvotes, user_songs.upvote as user_upvote, user_songs.downvote as user_downvote  FROM songs left join user_songs on user_songs.sond_id = songs.id and user_songs.user_id = ? where songs.category_id=? order by songs.upvote_count DESC, songs.downvote_count ASC limit 20', [req.query.user, req.query.category])
+    req.app.knexRef.raw('SELECT songs.id as id, songs.name as name, songs.url as song_url, songs.file_path as file_path, songs.upvote_count as upvotes, songs.downvote_count as downvotes, user_songs.upvote as user_upvote, user_songs.downvote as user_downvote  FROM songs left join user_songs on user_songs.sond_id = songs.id and user_songs.user_id = ? where songs.category_id=? order by songs.upvote_count DESC, songs.downvote_count ASC limit 20', [req.query.user, req.query.category])
     .then(function(result) {
         cb(result[0]);
     })
