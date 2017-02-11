@@ -1,4 +1,3 @@
-var rendering = require('../util/rendering');
 var grudioModel = require('../models/grudiomodel')();
 
 
