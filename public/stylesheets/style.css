@@ -64,6 +64,7 @@ html, body{
     border-right: 1px solid rgba(0,0,0,.09);
     background: #7272aa;
     height: 100%;
+    position: relative;
     overflow: hidden;
 }
 .song-list {
@@ -80,7 +81,7 @@ html, body{
     font-size: 16px;
 }
 .song-item {
-    padding: 10px 10px;
+    padding: 15px;
     border-bottom: 1px solid rgba(0,0,0,.09);
 }
 .song-action button {
@@ -91,4 +92,11 @@ html, body{
 }
 .pd0 {
     padding: 0;
+}
+.current-song-wrapper {
+    height: 60px;
+    position: absolute;
+    width: 100%;
+    background: red;
+    bottom: 0;
 }
