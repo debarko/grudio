@@ -11,6 +11,7 @@ html, body{
     left: 0;
     width: 100%;
     line-height: 60px;
+    border-bottom: 1px solid #dbdbdb;
 }
 #leftmenu-wrapper {
     background: purple;
@@ -29,11 +30,12 @@ html, body{
     height: 100%;
 }
 #equaliser-wrapper {
-    background: #16a085;
-    height: 30vh;
+    background: #f3f3f3;
+    height: 40vh;
+    border-bottom: 1px solid #dbdbdb;
 }
 #list-songs-wrapper {
-    height: 70vh;
+    height: 60vh;
     position: relative;
 }
 .header-logo {

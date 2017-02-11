@@ -64,7 +64,6 @@
   width: 100%;
   margin: 0;
   position: relative;
-  border-top: 1px solid #e7e7e7;
 }
 .side-menu #search .panel-body .navbar-form .form-group {
   width: 100%;
@@ -198,3 +197,13 @@
     height: 15px;
   }
 }
+
+
+
+
+
+
+
+
+
+/*css for audioplayer button*/
