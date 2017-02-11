@@ -27,7 +27,6 @@ html, body{
 }
 .main-playlist {
     height: 100%;
-    background: pink;
 }
 #equaliser-wrapper {
     background: #16a085;
@@ -39,8 +38,8 @@ html, body{
 }
 .header-logo {
     margin-left: 10px;
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 42px;
 }
 #user-profile-wrapper {
     display: inline-block;
@@ -61,8 +60,7 @@ html, body{
 }
 
 .song-list-wrapper {
-    border-right: 1px solid rgba(0,0,0,.09);
-    background: #7272aa;
+    border-right: 1px solid #e7e7e7;
     height: 100%;
     position: relative;
     overflow: hidden;
@@ -78,17 +76,52 @@ html, body{
 .song-name {
     display: inline-block;
     margin: 0;
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 50px;
+    color: rgba(0,0,0,0.7);
 }
 .song-item {
-    padding: 15px;
-    border-bottom: 1px solid rgba(0,0,0,.09);
+    border-bottom: 1px solid #e7e7e7;
+}
+.song-item article {
+    height: 50px;
+    line-height: 50px;
+}
+.song-action {
+    text-align: right;
+    height: 50px;
 }
 .song-action button {
     background: #fff;
     outline: none;
     border: none;
     font-size: 16px;
+    height: 50px;
+    line-height: 50px;
+    width: 50px;
+    padding:0;
+}
+.song-action button span {
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+.song-action .upvote-icon {
+    background-image: url(/images/list_like.png);
+}
+.song-action .downvote-icon {
+    background-image: url(/images/list_dis_like.png);
+}
+.button-divider{
+    width: 1px;
+    height: 35px;
+    display: inline-block;
+    margin-top: 8px;
+    vertical-align: top;
+    background-color: #dbdbdb;
 }
 .pd0 {
     padding: 0;

@@ -1,9 +1,8 @@
 "use strict";
 var Grudio = function() {
-    console.log("Grudio init");
-    this.testMethod();
+    this.songInteractionInit();
 };
-Grudio.prototype.testMethod = function() {
+Grudio.prototype.songInteractionInit = function() {
     console.log("test method called");
 };
 
