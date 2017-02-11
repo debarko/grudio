@@ -9,7 +9,9 @@ This example only does local authentication, not authorization, with Passport.js
 
 ## Quick Start
 
+  * Run 'create database grudio'
+  * Run 'use grudio'
   * Run 'users.sql'
-  * Rename util/bookshelf.example.js to util/bookshelf.js and adjust to your database settings
-  * Go to http://yourdomain:3000/register to create a user
+  * Adjust to your database settings in db.dev.conf.js
+  * Go to http://yourdomain:8989 to create a user
   * Start building your app!
