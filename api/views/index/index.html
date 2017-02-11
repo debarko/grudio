@@ -1,7 +1,30 @@
-{% extends '../layouts/default.html' %}
-
-{% block content %}
-    <h1>Public Home</h1>
-
-    <p>Public home page.</p>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Grudio</title>
+    <link rel='stylesheet' href='/stylesheets/vendor/bootsrap/css/bootstrap.min.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/leftmenu.css' />
+  </head>
+  <body>
+    <header>
+        <div id="header-wrapper">
+            <%- include header %>
+        </div>
+    </header>
+    <div id="leftmenu-wrapper" class="">
+         {% include 'leftmenu.html' %}
+    </div>
+     <div id="main-wrapper">
+        <div id="equaliser-wrapper">
+            equaliser
+        </div>
+        <div id="list-songs-wrapper">
+            {% include 'listsongs.html' %}
+        </div>
+    </div>
+    <script src="javascripts/vendor/jquery/jquery.min.js"></script>
+    <script src="javascripts/vendor/bootsrap/bootstrap.min.js"></script>
+    <script src="javascripts/main.js"></script>
+  </body>
+</html>
