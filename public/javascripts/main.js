@@ -39,7 +39,7 @@ Grudio.prototype.songInteractionInit = function() {
     console.log(this.songs);
     this.songs.each(function() {
         self.selectUpvoteButton.call(this, self.upvoted, self.fillSongTemplate.bind(self));
-        self.selectDownvoteButton.call(this, self.downvoted);
+        self.selectDownvoteButton.call(this, self.downvoted, self.fillSongTemplate.bind(self));
     });
 };
 Grudio.prototype.selectUpvoteButton = function(upvoted, fillSongTemplate) {
@@ -74,7 +74,7 @@ Grudio.prototype.upvoted = function(upvoteButton, songid, fillSongTemplate) {
         }
     }
 };
-Grudio.prototype.selectDownvoteButton = function(downvoted) {
+Grudio.prototype.selectDownvoteButton = function(downvoted, fillSongTemplate) {
     var downvoteButton, songid, isDownvoted, self;
 
     self = this;
@@ -90,20 +90,20 @@ Grudio.prototype.selectDownvoteButton = function(downvoted) {
     }
 
     $(downvoteButton).on('click', function() {
-        downvoted.call(self, downvoteButton, songid);
+        downvoted.call(self, downvoteButton, songid, fillSongTemplate);
     });
 };
-Grudio.prototype.downvoted = function(downvoteButton, songid) {
+Grudio.prototype.downvoted = function(downvoteButton, songid, fillSongTemplate) {
     if(!isLoggedin) {
         console.log("show login");
     } else {
         if(!this.boolDownvote) {
             $(downvoteButton).addClass('active');
             this.boolDownvote = true;
-            userOnArticleReq('downvote', 1, songid, 'togglefeature');
+            userOnArticleReq('downvote', 1, songid, 'togglefeature', fillSongTemplate);
         } else {
             $(downvoteButton).removeClass('active');
-            userOnArticleReq('downvote', 0, songid, 'togglefeature');
+            userOnArticleReq('downvote', 0, songid, 'togglefeature', fillSongTemplate);
             this.boolDownvote = false;
         }
     }
