@@ -93,3 +93,10 @@ html, body{
 .pd0 {
     padding: 0;
 }
+.current-song-wrapper {
+    height: 60px;
+    position: absolute;
+    width: 100%;
+    background: red;
+    bottom: 0;
+}
