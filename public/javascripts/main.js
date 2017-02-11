@@ -16,14 +16,14 @@ var userOnArticleReq = function(feature, featureValue, articleid, url, fillSongT
     });
     request.done(function( msg ) {
       console.log(feature+"success");
-      fillSongTemplate();
-      var gr = new Grudio();
+      //fillSongTemplate();
+      //var gr = new Grudio();
     });
 
     request.fail(function( jqXHR, textStatus ) {
       console.log( "Request failed: " + textStatus );
-      fillSongTemplate();
-      var gr = new Grudio();
+      //fillSongTemplate();
+      //var gr = new Grudio();
     });
 };
 

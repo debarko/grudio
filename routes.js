@@ -30,7 +30,7 @@ module.exports = function (app, passport) {
     app.post('/song', grudioController.postSongs);
     app.get('/song', grudioController.getSongs);
 
-    app.post('/toggle', grudioController.toggleFeature);
+    app.post('/togglefeature', grudioController.toggleFeature);
 
     app.get('/syncPlaylist', grudioController.syncPlaylist);
     app.get('/syncPlayer', grudioController.syncPlayer);

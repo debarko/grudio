@@ -2,7 +2,7 @@ var grudioModel = require('../models/grudiomodel')();
 
 
 /**
-  @PARAMS OBJ 
+  @PARAMS OBJ
   Objective: check whether object is empty or not
 **/
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -10,7 +10,7 @@ function isEmpty(obj) {
 
   if (obj == null) return true;
   if (obj.length > 0)    return false;
-  if (obj.length === 0)  return true;    
+  if (obj.length === 0)  return true;
   for (var key in obj) {
     if (hasOwnProperty.call(obj, key)) return false;
   }
@@ -25,7 +25,7 @@ exports.getCategory = function(req, res) {
           catdata.forEach(function (model) {
             console.log(model.attributes)
               result.push(model.attributes);
-          }) 
+          })
           res.json(result);
       })
       .catch(function(err) {
@@ -68,9 +68,9 @@ exports.getSongs = function(req, res) {
         function(model){
           result = [];
           for (var i = model[0].length - 1; i >= 0; i--) {
-            var id = model[0][i]["id"]; 
-            var user_id = model[0][i]["user_id"]; 
-            var upvote = model[0][i]["upvote"]; 
+            var id = model[0][i]["id"];
+            var user_id = model[0][i]["user_id"];
+            var upvote = model[0][i]["upvote"];
             var downvote = model[0][i]["downvote"];
 
             var already_exist = false;
@@ -112,14 +112,14 @@ exports.getSongs = function(req, res) {
           catdata.forEach(function (model) {
             // console.log(model.attributes)
               result.push(model.attributes);
-          }) 
+          })
           res.json(result);
       })
       .catch(function(err) {
           res.json(err);
       })
   }
-  
+
 }
 
 exports.syncPlaylist = function(req, res) {
@@ -215,17 +215,17 @@ function resetSong(id, req, cb) {
 
 exports.toggleFeature = function(req, res){
   console.log("in toggle");
-  user_id = req.user.id;
-  // user_id = 1;
-  song_id = req.body.id;
+  //user_id = req.user.id;
+  user_id = 1;
+  song_id = req.body.songid;
   upvote = req.body.upvote;
   downvote = req.body.downvote;
   song_is_playing = req.body.song_is_playing;
-  
+
 
   req.app.knexRef.raw('SELECT * FROM songs, user_songs WHERE user_songs.sond_id = songs.id AND songs.id = ? AND user_songs.user_id = ? limit 1', [song_id, user_id])
   .then(function(result) {
-      
+
       if(isEmpty(result[0])){
         console.log("in first query2");
         // user actitvity for first time
@@ -245,7 +245,7 @@ exports.toggleFeature = function(req, res){
       } else{
         // console.log("in else");
         // user has made any change
-        // old_upvote = 
+        // old_upvote =
         var old_upvote = result[0]['upvote'];
         var old_downvote = result[0]['downvote'];
         if(old_upvote == 1 && (upvote == 1 || upvote == '1')){
