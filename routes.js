@@ -25,7 +25,10 @@ module.exports = function (app, passport) {
     // Curd Operation
     // app.get('/category', ensureAuthenticated, grudioController.getCategory);
     app.get('/category', grudioController.getCategory);
-    app.post('/category', grudioController.postCategory)
+    app.post('/category', grudioController.postCategory);
+
+    app.post('/song', grudioController.postSongs);
+    app.get('/song', grudioController.getSongs);
 
     // 'rendering' can be used to format api calls (if you have an api)
     // into either html or json depending on the 'Accept' request header
