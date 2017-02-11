@@ -1,7 +1,7 @@
 module.exports = {
     host     : 'localhost',
-    user     : 'your_username',
-    password : 'your_password',
-    database : 'your_database',
+    user     : 'root',
+    password : 'basic',
+    database : 'grudio',
     charset  : 'utf8'
 }
