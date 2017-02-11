@@ -18,7 +18,8 @@ try {
 var knex = require('knex')({
         client: 'mysql',
         connection: dbConfig
-    }), 
+    }),
+    Memcached = require('memcached'),
     express = require('express'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
@@ -32,7 +33,10 @@ var knex = require('knex')({
     Bookshelf = require('bookshelf'),
     messages = require('./util/messages');
 
+var memcached = new Memcached(ec2-35-167-10-53.us-west-2.compute.amazonaws.com:11211);
 var app = express();
+app.knexRef = knex;
+app.memcacheRef = memcached;
 
 Bookshelf.mysqlAuth = Bookshelf(knex);
 

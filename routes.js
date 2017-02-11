@@ -30,6 +30,9 @@ module.exports = function (app, passport) {
     app.post('/song', grudioController.postSongs);
     app.get('/song', grudioController.getSongs);
 
+    app.get('/syncPlaylist', grudioController.syncPlaylist);
+    app.get('/syncPlayer', grudioController.syncPlayer);
+
     // 'rendering' can be used to format api calls (if you have an api)
     // into either html or json depending on the 'Accept' request header
     app.get('/apitest', function(req, res) {
