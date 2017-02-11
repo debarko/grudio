@@ -3,21 +3,13 @@ var crypto = require('crypto'),
     data = require('../models/auth')();
 
 
-exports.registerPage = function(req, res) {
-    res.render('login/register', {username: req.flash('username')});
-}
-
-
 exports.registerPost = function(req, res) {
     var vpw = req.body.vpw;
     var pwu = req.body.pw;
     var un = req.body.un;
     
-    req.flash('username', un);
-    
     if(vpw !== pwu) {
-        req.flash('error', 'Your passwords did not match.');
-        res.redirect('/register');
+        res.end('error', 'Your passwords did not match.');
         return;
     }
 
@@ -25,8 +17,7 @@ exports.registerPost = function(req, res) {
     var errors = req.validationErrors();
     if (errors) {
         var msg = errors[0].msg;
-        req.flash('error', msg);
-        res.redirect('/register');
+        res.end('error', msg);
         return;
     }
     
@@ -36,34 +27,27 @@ exports.registerPost = function(req, res) {
 
     new data.ApiUser({email: un, password: pw, salt: new_salt, created: created}).save().then(function(model) {
         passport.authenticate('local')(req, res, function () {
-            res.redirect('/home');
+            res.end('success');
         })
     }, function(err) {
-        req.flash('error', 'Unable to create account.');
-        res.redirect('/register');
+        res.end('error');
     });
-}
-
-
-exports.loginPage = function(req, res) {
-    res.render('login/index', {username: req.flash('username')});
 }
 
 
 exports.checkLogin = function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
         if (err || !user) {
-            req.flash('username', req.body.un);
-            req.flash('error', info.message);
-            return res.redirect('/login');
+            res.end('error');
+            return;
         }
         req.logIn(user, function(err) {
             if (err) {
-                req.flash('error', info.message);
+                res.end('error');
                 return res.redirect('/login');
             }
-            req.flash('success', 'Welcome!');
-            return res.redirect('/home');
+            res.semd('bahar');
+            return;
         });
     })(req, res, next);
 }
@@ -71,6 +55,4 @@ exports.checkLogin = function(req, res, next) {
 
 exports.logout = function(req, res) {
     req.logout();
-    req.flash('info', 'You are now logged out.');
-    res.redirect('/login');
 }

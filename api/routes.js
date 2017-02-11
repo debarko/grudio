@@ -11,9 +11,7 @@ module.exports = function (app, passport) {
 
 
     // Auth
-    app.get('/register', loginController.registerPage);
     app.post('/register', loginController.registerPost);
-    app.get('/login', loginController.loginPage);
     app.post('/login', loginController.checkLogin);
     app.get('/logout', loginController.logout);
 
