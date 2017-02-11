@@ -7,5 +7,6 @@ exports.home = function(req, res) {
 
 
 exports.userHome = function(req, res) {
+	console.log(req.user.attributes.email);
     res.render('index/user-home');
 }
