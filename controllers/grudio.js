@@ -95,3 +95,14 @@ exports.syncPlayer = function(req, res) {
         res.end(error);
     });
 }
+
+function resetSong = function(id, cb) {
+    req.app.knexRef.raw('update songs set songs.upvote_count = 0 where id = ?', [id])
+    .then(function(result) {
+        cb('success');
+    })
+    .catch(function(error) {
+        cb('error');
+    });
+};
+
