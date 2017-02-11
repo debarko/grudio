@@ -123,7 +123,7 @@ exports.getSongs = function(req, res) {
 }
 
 exports.syncPlaylist = function(req, res) {
-    req.app.knexRef.raw('SELECT songs.name as name, songs.upvote_count as upvotes, songs.downvote_count as downvotes, user_songs.upvote as user_upvote, user_songs.downvote as user_downvote  FROM songs left join user_songs on user_songs.sond_id = songs.id and user_songs.user_id = ? where songs.category_id=? order by songs.upvote_count DESC, songs.downvote_count ASC limit 20', [req.query.user, req.query.category])
+    req.app.knexRef.raw('SELECT songs.id as id, songs.name as name, songs.url as song_url, songs.upvote_count as upvotes, songs.downvote_count as downvotes, user_songs.upvote as user_upvote, user_songs.downvote as user_downvote  FROM songs left join user_songs on user_songs.sond_id = songs.id and user_songs.user_id = ? where songs.category_id=? order by songs.upvote_count DESC, songs.downvote_count ASC limit 20', [req.query.user, req.query.category])
     .then(function(result) {
         res.json(result[0]);
     })
@@ -132,13 +132,84 @@ exports.syncPlaylist = function(req, res) {
     });
 }
 
-exports.syncPlayer = function(req, res) {
-    req.app.knexRef.raw('select * from songs')
+function nextSong(req, cb) {
+    req.app.knexRef.raw('SELECT songs.id as id, songs.name as name, songs.url as song_url, songs.upvote_count as upvotes, songs.downvote_count as downvotes, user_songs.upvote as user_upvote, user_songs.downvote as user_downvote  FROM songs left join user_songs on user_songs.sond_id = songs.id and user_songs.user_id = ? where songs.category_id=? order by songs.upvote_count DESC, songs.downvote_count ASC limit 20', [req.query.user, req.query.category])
     .then(function(result) {
-        res.json(result);
+        cb(result[0]);
     })
     .catch(function(error) {
-        res.end(error);
+        cb('error');
+    });
+}
+
+function updateCatCache(req, category, song_id, seek) {
+    if (!category) {
+        category = req.query.category;
+    }
+    if (!seek) {
+        seek = 0;
+    }
+    var milliseconds = (new Date).getTime();
+    console.log(song_id);
+    var obj = {
+        song: song_id,
+        time: milliseconds,
+        seek: 0
+    };
+    console.log(JSON.stringify(obj));
+    req.app.memcacheRef.set(category, JSON.stringify(obj), 86400);
+    console.log(req.app.memcacheRef.get(category))
+}
+
+function givemeObject(song) {
+    return {song_url: song.song_url,seek: 0, name: song.name, file_path: song.file_path};
+}
+
+exports.syncPlayer = function(req, res) {
+    var catCache = req.app.memcacheRef.get(req.query.category);
+    console.log(1);
+    console.log(catCache);
+    if (catCache) {
+        console.log(3);
+        catCache = JSON.parse(catCache);
+        var milliseconds = (new Date).getTime();
+        var timeDiff = milliseconds - catCache.time;
+        timeDiff = timeDiff / 1000;
+        nextSongs = nextSong(req, function (songs) {
+            console.log(4);
+            var songDiff = timeDiff/(5*60);
+            var songDiffCheck = timeDiff/(5*60);
+            for(var i =0; i < songs.length; i++) {
+                if(songs[i].id === catCache.song) {
+                    songDiff += i;
+                }
+            }
+            if (songDiff === songDiffCheck) {
+                songDiff = songs.length + 1;
+            }
+            if (songDiff > songs.length) {
+                res.json(givemeObject(songs[0]));
+            } else {
+                res.json(givemeObject(songs[songDiff]));
+            }
+        });
+    } else {
+        console.log(2);
+        nextSong(req, function (songs) {
+            console.log(21);
+            updateCatCache(req, undefined, songs[0].id);
+            res.json(givemeObject(songs[0]));
+        });
+    }
+}
+
+function resetSong(id, req, cb) {
+    req.app.knexRef.raw('update songs set songs.upvote_count = 0 where id = ?', [id])
+    .then(function(result) {
+        cb('success');
+    })
+    .catch(function(error) {
+        cb('error');
     });
 }
 
