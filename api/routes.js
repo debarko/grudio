@@ -17,6 +17,10 @@ module.exports = function (app, passport) {
     app.get('/login', loginController.loginPage);
     app.post('/login', loginController.checkLogin);
     app.get('/logout', loginController.logout);
+    // Auth APIs
+    app.post('/registerapi', loginController.registerPostAPI);
+    app.post('/loginapi', loginController.checkLoginAPI);
+    app.get('/logoutapi', loginController.logoutAPI);
 
     // Curd Operation
     // app.get('/category', ensureAuthenticated, grudioController.getCategory);
