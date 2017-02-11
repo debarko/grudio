@@ -243,6 +243,7 @@ exports.toggleFeature = function(req, res){
             res.end("unable to process request");
         });
       } else{
+        // console.log("in else");
         // user has made any change
         // old_upvote = 
         var old_upvote = result[0]['upvote'];
@@ -253,14 +254,19 @@ exports.toggleFeature = function(req, res){
             downvote = 0;
         }
         if(old_upvote == 1 && (upvote == 0)){
+          // console.log("in else1");
             var sql = "UPDATE user_songs SET upvote = 0 where id = ?";
         } else if(old_downvote == 1 && (downvote == 0)){
+          // console.log("in else2");
             var sql = "UPDATE user_songs SET downvote = 0 where id = ?";
         } else if(upvote == 1 || upvote == '1'){
-          var sql = "UPDATE user_songs SET upvote = 1,  where id = ?";
+          // console.log("in else3");
+          var sql = "UPDATE user_songs SET upvote = 1  where id = ?";
         } else if(downvote == 1 || downvote == '1'){
+          // console.log("in else4");
           var sql = "UPDATE user_songs SET downvote = 1 where id = ?";
         } else{
+          // console.log("in else5");
           var sql = "UPDATE user_songs SET upvote = 1, downvote = 1 where id = ?";
         }
         req.app.knexRef.raw(sql, [result[0]['id']]).then(function(result){res.json("Sucessfull")}, function(err){res.end(err)});
