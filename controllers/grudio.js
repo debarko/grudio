@@ -248,8 +248,22 @@ exports.toggleFeature = function(req, res){
         var old_upvote = result[0]['upvote'];
         var old_downvote = result[0]['downvote'];
         if(old_upvote == 1 && (upvote == 1 || upvote == '1')){
-            // update record
+            upvote = 0;
+        } else if(old_downvote == 1 && (downvote == 1 || downvote == '1')){
+            downvote = 0;
         }
+        if(old_upvote == 1 && (upvote == 0)){
+            var sql = "UPDATE user_songs SET upvote = 0 where id = ?";
+        } else if(old_downvote == 1 && (downvote == 0)){
+            var sql = "UPDATE user_songs SET downvote = 0 where id = ?";
+        } else if(upvote == 1 || upvote == '1'){
+          var sql = "UPDATE user_songs SET upvote = 1,  where id = ?";
+        } else if(downvote == 1 || downvote == '1'){
+          var sql = "UPDATE user_songs SET downvote = 1 where id = ?";
+        } else{
+          var sql = "UPDATE user_songs SET upvote = 1, downvote = 1 where id = ?";
+        }
+        req.app.knexRef.raw(sql, [result[0]['id']]).then(function(result){res.json("Sucessfull")}, function(err){res.end(err)});
       }
   }, function(error){
     res.end(error);
