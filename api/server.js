@@ -1,121 +1,64 @@
-// BASE SETUP
-// =============================================================================
 
-// call the packages we need
-var express    = require('express');
-var bodyParser = require('body-parser');
-var app        = express();
-var morgan     = require('morgan');
+// TODO: Find a better way to load different configs in different env
+var dbConfig;
+try {
+    // Look for dev conf for local development
+    dbConfig = require('./config/db.dev.conf.js');
+} catch(e) {
+    try {
+        // production conf?
+        dbConfig = require('./config/db.conf.js');
+    } catch(e) {
+        console.log('Startup failed.  No db config file found.');
+        return false;
+    }
+}
 
-// configure app
-app.use(morgan('dev')); // log requests to the console
 
-// configure body parser
+var knex = require('knex')({
+        client: 'mysql',
+        connection: dbConfig
+    }), 
+    express = require('express'),
+    bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),
+    cookieSession = require('cookie-session'),
+    serveStatic = require('serve-static'),
+    expressValidator = require('express-validator'),
+    flash = require('connect-flash'),
+    swig = require('swig'),
+    passport = require('passport'),
+    crypto = require('crypto'),
+    Bookshelf = require('bookshelf'),
+    messages = require('./util/messages');
+
+var app = express();
+
+Bookshelf.mysqlAuth = Bookshelf(knex);
+
+app.use(cookieParser('halsisiHHh445JjO0'));
+app.use(cookieSession({
+    keys: ['key1', 'key2']
+}));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port     = process.env.PORT || 8080; // set our port
+app.use(expressValidator());
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+app.use(serveStatic('./public'));
+//app.use(express.favicon(__dirname + '/public/images/shortcut-icon.png'));
+app.use(messages());
 
-var mongoose   = require('mongoose');
-mongoose.connect('mongodb://node:node@novus.modulusmongo.net:27017/Iganiq8o'); // connect to our database
-var Bear     = require('./app/models/bear');
+app.engine('html', swig.renderFile);
+app.set('view engine', 'html');
+app.set('views', __dirname + '/views');
 
-// ROUTES FOR OUR API
-// =============================================================================
+require('./util/auth')(passport);
+require('./routes')(app, passport);
 
-// create our router
-var router = express.Router();
+app.listen(process.env.PORT || 3000);
 
-// middleware to use for all requests
-router.use(function(req, res, next) {
-	// do logging
-	console.log('Something is happening.');
-	next();
-});
-
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-	res.json({ message: 'hooray! welcome to our api!' });	
-});
-
-// on routes that end in /bears
-// ----------------------------------------------------
-router.route('/bears')
-
-	// create a bear (accessed at POST http://localhost:8080/bears)
-	.post(function(req, res) {
-		
-		var bear = new Bear();		// create a new instance of the Bear model
-		bear.name = req.body.name;  // set the bears name (comes from the request)
-
-		bear.save(function(err) {
-			if (err)
-				res.send(err);
-
-			res.json({ message: 'Bear created!' });
-		});
-
-		
-	})
-
-	// get all the bears (accessed at GET http://localhost:8080/api/bears)
-	.get(function(req, res) {
-		Bear.find(function(err, bears) {
-			if (err)
-				res.send(err);
-
-			res.json(bears);
-		});
-	});
-
-// on routes that end in /bears/:bear_id
-// ----------------------------------------------------
-router.route('/bears/:bear_id')
-
-	// get the bear with that id
-	.get(function(req, res) {
-		Bear.findById(req.params.bear_id, function(err, bear) {
-			if (err)
-				res.send(err);
-			res.json(bear);
-		});
-	})
-
-	// update the bear with this id
-	.put(function(req, res) {
-		Bear.findById(req.params.bear_id, function(err, bear) {
-
-			if (err)
-				res.send(err);
-
-			bear.name = req.body.name;
-			bear.save(function(err) {
-				if (err)
-					res.send(err);
-
-				res.json({ message: 'Bear updated!' });
-			});
-
-		});
-	})
-
-	// delete the bear with this id
-	.delete(function(req, res) {
-		Bear.remove({
-			_id: req.params.bear_id
-		}, function(err, bear) {
-			if (err)
-				res.send(err);
-
-			res.json({ message: 'Successfully deleted' });
-		});
-	});
-
-
-// REGISTER OUR ROUTES -------------------------------
-app.use('/api', router);
-
-// START THE SERVER
-// =============================================================================
-app.listen(port);
-console.log('Magic happens on port ' + port);
+console.log('Listening on port 3000');

@@ -1,18 +1,15 @@
-# Building a RESTful API in Node and Express
+nodejs-mysql-boilerplate
+========================
 
-Using the new Express 4.0 Router to build an API
+Very basic nodejs/express setup with mysql authentication.
 
-[Read the tutorial](http://scotch.io/tutorials/javascript/build-a-restful-api-using-node-and-express-4)
+I found mongodb based boilerplates but I needed something that would work with mysql. I quickly put this together and I'm just getting familiar with Node, so let me know if you have any tips or suggestions for improving this.  I hope you find this useful.
 
-## Requirements
+This example only does local authentication, not authorization, with Passport.js.  Nor does it have any front-end setup - I'll leave that up to you.  I choose Bookshelf.js ORM because it nicely extends backbone.js, which is what I am most familiar with.  Knex.js would also work just fine or even just plain mysql.
 
-- Node and npm
+## Quick Start
 
-## Installation
-
-- Clone the repo: `git clone git@github.com:scotch-io/node-api`
-- Install dependencies: `npm install`
-- Start the server: `node server.js`
-
-## Testing the API
-Test your API using [Postman](https://chrome.google.com/webstore/detail/postman-rest-client-packa/fhbjgbiflinjbdggehcddcbncdddomop)
+  * Run 'users.sql'
+  * Rename util/bookshelf.example.js to util/bookshelf.js and adjust to your database settings
+  * Go to http://yourdomain:3000/register to create a user
+  * Start building your app!
