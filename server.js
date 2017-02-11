@@ -18,7 +18,7 @@ try {
 var knex = require('knex')({
         client: 'mysql',
         connection: dbConfig
-    }), 
+    }),
     express = require('express'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
@@ -33,6 +33,7 @@ var knex = require('knex')({
     messages = require('./util/messages');
 
 var app = express();
+app.knexRef = knex;
 
 Bookshelf.mysqlAuth = Bookshelf(knex);
 
