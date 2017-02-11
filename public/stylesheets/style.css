@@ -138,6 +138,28 @@ html, body{
     height: 60px;
     position: absolute;
     width: 100%;
-    background: red;
+    background: #43248b;
     bottom: 0;
+}
+.player-control-btn {
+    width: 54px;
+    height: 54px;
+    margin: 4px 10px 4px 20px;
+    border-radius: 54px;
+    border: none;
+    outline: none;
+}
+.player-control-btn span {
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+.player-control-btn.play .player-control-icon {
+    background-image: url(/images/play_ic.png);
+}
+.player-control-btn.pause .player-control-icon {
+    background-image: url(/images/pass_ic.png);
 }
