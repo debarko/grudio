@@ -1,6 +1,6 @@
 var clicked = true;
 
-$(".bar-c").click( function() {
+$("#playpause").click( function() {
   if (clicked) {
     $(".bar").addClass("noAnim");
     clicked = false;
