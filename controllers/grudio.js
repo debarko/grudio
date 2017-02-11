@@ -77,7 +77,7 @@ exports.getSongs = function(req, res) {
 }
 
 exports.syncPlaylist = function(req, res) {
-    req.app.knexRef.raw('SELECT * FROM users')
+    req.app.knexRef.raw('SELECT * FROM songs left join user_songs on user_songs.sond_id = songs.id and user_songs.user_id = ? where songs.category_id=? order by songs.upvote_count limit 20', [req.body.user, req.body.category])
     .then(result => {
         console.log(result);
     }, error => {
