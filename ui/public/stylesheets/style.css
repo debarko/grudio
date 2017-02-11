@@ -1,0 +1,31 @@
+html, body{
+	font-size: 14px;
+	font-family: Helvetica, Arial, sans-serif;
+}
+#header-wrapper {
+    height: 60px;
+    background: red;
+    z-index: 20;
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100%;
+}
+#leftmenu-wrapper {
+    background: purple;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 19;
+}
+#main-wrapper {
+    background: green;
+    height: 100%;
+    margin-left: 250px;
+    padding-top: 60px;
+}
+#equaliser-wrapper {
+    background: blue;
+}
