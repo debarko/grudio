@@ -67,6 +67,10 @@ html, body{
     position: relative;
     overflow: hidden;
 }
+.song-ad-wrapper{
+    background:url("/images/mic_img.png") no-repeat center center;
+    height: 100%;
+}
 .song-list {
     padding: 0;
     list-style: none;

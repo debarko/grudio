@@ -10,7 +10,7 @@ var wavesurfer = WaveSurfer.create({
 
 
 function init(){
-	startPlay(audioUrl, startTime, function(){
+	startPlay(startingSong, startTime, function(){
 		getNextSong(0);
 	});
 
@@ -48,6 +48,7 @@ function playPause(){
 			if(data){
 				var curSong = baseUrl+'/'+data.file_path;
 				var curSeek = data.seek;
+				curSongFullData = data;
 				startPlay(curSong, curSeek);
 			}
 		});
@@ -70,6 +71,7 @@ function getNextSong(refresh){
 				if(data){
 					nextSong = baseUrl+'/'+data.file_path;
 					seek = data.seek;
+					curSongFullData = data;
 				}
 			});
 		}
@@ -106,8 +108,9 @@ var timeOut = null;
 var baseUrl = null;
 var nextSong = null;
 var seek = null;
-var audioUrl = 'https://wavesurfer-js.org/example/split-channels/stereo.mp3';
+var startingSong = 'https://wavesurfer-js.org/example/split-channels/stereo.mp3';
 var startTime = 50;
+var curSongFullData = null;
 
 $(document).ready(function(){
 	init();
