@@ -232,7 +232,7 @@ exports.toggleFeature = function(req, res){
         if(upvote == 1 || upvote == '1'){
             var udata = {user_id: user_id, sond_id: song_id, upvote:1, downvote: 0}
         } else if(downvote == 1 || downvote == '1'){
-            var udata = {user_id: user_id, sond_id: song_id, upvote:1, downvote: 0}
+            var udata = {user_id: user_id, sond_id: song_id, upvote:0, downvote: 1}
         } else{
             var udata = {user_id: user_id, sond_id: song_id, upvote:0, downvote: 0}
         }
