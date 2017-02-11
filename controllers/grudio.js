@@ -75,3 +75,16 @@ exports.getSongs = function(req, res) {
         res.json(err);
     })
 }
+
+exports.syncPlaylist = function(req, res) {
+    req.app.knexRef.raw('SELECT * FROM users')
+    .then(result => {
+        console.log(result);
+    }, error => {
+        console.log(error);
+    });
+    res.end('yoyo')
+}
+
+exports.syncPlayer = function(req, res) {
+}
