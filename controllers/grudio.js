@@ -77,14 +77,21 @@ exports.getSongs = function(req, res) {
 }
 
 exports.syncPlaylist = function(req, res) {
-    req.app.knexRef.raw('SELECT * FROM songs left join user_songs on user_songs.sond_id = songs.id and user_songs.user_id = ? where songs.category_id=? order by songs.upvote_count limit 20', [req.body.user, req.body.category])
-    .then(result => {
-        console.log(result);
-    }, error => {
-        console.log(error);
+    req.app.knexRef.raw('SELECT songs.name as name, songs.upvote_count as upvotes, songs.downvote_count as downvotes, user_songs.upvote as user_upvote, user_songs.downvote as user_downvote  FROM songs left join user_songs on user_songs.sond_id = songs.id and user_songs.user_id = ? where songs.category_id=? order by songs.upvote_count DESC, songs.downvote_count ASC limit 20', [req.query.user, req.query.category])
+    .then(function(result) {
+        res.json(result[0]);
+    })
+    .catch(function(error) {
+        res.end(error);
     });
-    res.end('yoyo')
 }
 
 exports.syncPlayer = function(req, res) {
+    req.app.knexRef.raw('select * from songs')
+    .then(function(result) {
+        res.json(result);
+    })
+    .catch(function(error) {
+        res.end(error);
+    });
 }
