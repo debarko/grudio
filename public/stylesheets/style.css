@@ -114,13 +114,13 @@ html, body{
 .song-action .upvote-icon {
     background-image: url(/images/list_like.png);
 }
-.upvote.active .upvote-icon {
+.song-action .upvote.active .upvote-icon {
     background-image: url(/images/list_like_select.png);
 }
 .song-action .downvote-icon {
     background-image: url(/images/list_dis_like.png);
 }
-.downvote.active .downvote-icon {
+.song-action .downvote.active .downvote-icon {
     background-image: url(/images/list_dis_like_select.png);
 }
 .button-divider{
@@ -138,6 +138,75 @@ html, body{
     height: 60px;
     position: absolute;
     width: 100%;
-    background: red;
+    background: #43248b;
     bottom: 0;
+}
+.current-song-wrapper p {
+    color: #fff;
+    display: inline-block;
+    line-height: 60px;
+    height: 60px;
+    vertical-align: top;
+    font-size: 16px;
+}
+.player-control-btn {
+    width: 54px;
+    height: 54px;
+    margin: 4px 10px 4px 0px;
+    border-radius: 54px;
+    border: none;
+    outline: none;
+    padding: 0;
+    background: #fff;
+}
+.player-control-btn span {
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    width: 54px;
+    height: 54px;
+    display: block;
+}
+.player-control-btn.play .player-control-icon {
+    background-image: url(/images/play_ic.png);
+}
+.player-control-btn.pause .player-control-icon {
+    background-image: url(/images/pass_ic.png);
+}
+.player-action {
+    text-align: right;
+    height: 60px;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 60px;
+}
+.player-action button {
+    background: #43248b;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    height: 60px;
+    line-height: 60px;
+    width: 60px;
+    padding:0;
+}
+.player-action button span {
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    display: block;
+}
+.player-action .upvote-icon {
+    background-image: url(/images/bottom_like.png);
+}
+.player-action .upvote.active .upvote-icon {
+    background-image: url(/images/list_like_select.png);
+}
+.player-action .downvote-icon {
+    background-image: url(/images/list_dis_like.png);
+}
+.player-action .downvote.active .downvote-icon {
+    background-image: url(/images/list_dis_like_select.png);
 }

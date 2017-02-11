@@ -1,9 +1,10 @@
 "use strict";
-var Grudio = function() {
-    this.songInteractionInit();
-};
+_.templateSettings.variable = "rc";
+var template = _.template(
+    $( ".songs-template" ).html()
+);
 var isLoggedin = true;
-var userOnArticleReq = function(feature, featureValue, articleid, url) {
+var userOnArticleReq = function(feature, featureValue, articleid, url, fetchDataApi) {
     var dataValue;
     dataValue = {
         song_id : articleid,
@@ -16,23 +17,29 @@ var userOnArticleReq = function(feature, featureValue, articleid, url) {
     });
     request.done(function( msg ) {
       console.log(feature+"success");
+      fetchDataApi();
     });
 
     request.fail(function( jqXHR, textStatus ) {
       console.log( "Request failed: " + textStatus );
+      fetchDataApi();
     });
+};
+
+var Grudio = function() {
+    this.songsList = $('.song-list');
+    this.songs = $(this.songsList).children('.song-item');
+    this.songInteractionInit();
 };
 Grudio.prototype.songInteractionInit = function() {
-    var songsList, songs , self;
-    var self = this;
-    songsList = $('.song-list');
-    songs = $(songsList).children('.song-item');
-    songs.each(function() {
-        self.selectUpvoteButton.call(this, self.upvoted);
-        self.selectDownvoteButton.call(this, self.downvoted);
+    var self;
+    self = this;
+    this.songs.each(function() {
+        self.selectUpvoteButton.call(this, self.upvoted, self.fetchDataApi.bind(self));
+        self.selectDownvoteButton.call(this, self.downvoted, self.fetchDataApi.bind(self));
     });
 };
-Grudio.prototype.selectUpvoteButton = function(upvoted) {
+Grudio.prototype.selectUpvoteButton = function(upvoted, fetchDataApi) {
     var self, upvoteButton, songid, isUpvoted;
 
     self = this;
@@ -45,30 +52,26 @@ Grudio.prototype.selectUpvoteButton = function(upvoted) {
         $(upvoteButton).addClass('active');
         this.boolUpvote = true;
     }
-
     $(upvoteButton).on('click', function() {
-        upvoted.call(self, upvoteButton, songid);
+        upvoted.call(self, upvoteButton, songid, fetchDataApi);
     });
 };
-Grudio.prototype.upvoted = function(upvoteButton, songid) {
+Grudio.prototype.upvoted = function(upvoteButton, songid, fetchDataApi) {
     if(!isLoggedin) {
         console.log("show login");
     } else {
-        console.log(this.boolUpvote);
         if(!this.boolUpvote) {
             $(upvoteButton).addClass('active');
             this.boolUpvote = true;
-            userOnArticleReq('upvote', 1, songid, 'togglefeature');
-            console.log('upvoted true');
+            userOnArticleReq('upvote', 1, songid, 'togglefeature', fetchDataApi);
         } else {
             $(upvoteButton).removeClass('active');
-            userOnArticleReq('upvote', 0, songid, 'togglefeature');
+            userOnArticleReq('upvote', 0, songid, 'togglefeature', fetchDataApi);
             this.boolUpvote = false;
-            console.log('upvoted false');
         }
     }
 };
-Grudio.prototype.selectDownvoteButton = function(downvoted) {
+Grudio.prototype.selectDownvoteButton = function(downvoted, fetchDataApi) {
     var downvoteButton, songid, isDownvoted, self;
 
     self = this;
@@ -84,25 +87,53 @@ Grudio.prototype.selectDownvoteButton = function(downvoted) {
     }
 
     $(downvoteButton).on('click', function() {
-        downvoted.call(self, downvoteButton, songid);
+        downvoted.call(self, downvoteButton, songid, fetchDataApi);
     });
 };
-Grudio.prototype.downvoted = function(downvoteButton, songid) {
+Grudio.prototype.downvoted = function(downvoteButton, songid, fetchDataApi) {
     if(!isLoggedin) {
         console.log("show login");
     } else {
         if(!this.boolDownvote) {
             $(downvoteButton).addClass('active');
             this.boolDownvote = true;
-            userOnArticleReq('downvote', 1, songid, 'togglefeature');
-            console.log('downvote true');
+            userOnArticleReq('downvote', 1, songid, 'togglefeature', fetchDataApi);
         } else {
             $(downvoteButton).removeClass('active');
-            userOnArticleReq('downvote', 0, songid, 'togglefeature');
+            userOnArticleReq('downvote', 0, songid, 'togglefeature', fetchDataApi);
             this.boolDownvote = false;
-            console.log('downvote false');
         }
     }
+};
+Grudio.prototype.fetchDataApi = function() {
+    var dataValue;
+    var self = this;
+    dataValue = {
+        song_id : 1,
+    };
+    //dataValue[feature] = featureValue;
+    var request = $.ajax({
+        url: "http://localhost:8989/syncPlaylist?category=1&user=1",
+        method: "GET"
+    });
+    request.done(function(data) {
+      console.log(data);
+      self.fillSongTemplate.call(self, data);
+      var gr = new Grudio();
+    });
+
+    request.fail(function( jqXHR, textStatus ) {
+      console.log( "Request failed: " + textStatus );
+    });
+};
+Grudio.prototype.fillSongTemplate = function(data) {
+    var self = this;
+    console.log(data);
+    //$(this.songsList).html(template);
+    $(this.songsList).html(
+        template(data)
+    );
+    console.log('html in progress');
 };
 
 var gr = new Grudio();
