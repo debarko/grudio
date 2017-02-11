@@ -114,8 +114,14 @@ html, body{
 .song-action .upvote-icon {
     background-image: url(/images/list_like.png);
 }
+.upvote.active .upvote-icon {
+    background-image: url(/images/list_like_select.png);
+}
 .song-action .downvote-icon {
     background-image: url(/images/list_dis_like.png);
+}
+.downvote.active .downvote-icon {
+    background-image: url(/images/list_dis_like_select.png);
 }
 .button-divider{
     width: 1px;
