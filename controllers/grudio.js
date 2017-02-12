@@ -86,9 +86,6 @@ exports.postSongs = function(req, res) {
     YD.on("progress", function(progress) {
         console.log(progress);
     });
-  if(isEmpty(songName) || isEmpty(category) || isEmpty(url)){
-    res.json("either name or category, or url is missing");
-  }
   new grudioModel.songsModel({name: songName, created: (new Date()).toYMD(), category_id: category, url: url, user_id: user_id}).save().then(function(model){
     res.json("Added")
     var vidUrl = url.split("?")[1].split("=")[1];

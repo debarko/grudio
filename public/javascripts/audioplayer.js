@@ -145,7 +145,8 @@ function addSong(){
 		contentType: "application/json; charset=utf-8",
 		cache: false,
 		success: function(data){
-			alert(data);
+			//alert(data);
+			addSongToggle();
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown){
 			//alert('err');
@@ -155,4 +156,15 @@ function addSong(){
 			alert("Error: " + errorThrown);
 		}
 	});
+}
+
+function addSongToggle(){
+ var newDisplay = 'none';
+    var display = document.getElementById("addSongForm").style.display;
+    if(display=='block'){
+    	newDisplay = 'none';
+    }else{
+    	newDisplay = 'block';
+    }
+    document.getElementById("addSongForm").style.display = newDisplay;
 }

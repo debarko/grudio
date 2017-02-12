@@ -21,8 +21,8 @@
             </div>
 
             <div class="add-song-wrapper">
-                <img src="images/add_new_song.png" alt="">
-                <div class="form-control">
+                <img id="addSongButton" src="images/add_new_song.png" alt="" onclick="addSongToggle()">
+                <div id="addSongForm" class="form-control" style="display:none">
                     <input id="newsongurl" type="url" placeholder="http://localhost:8989/" name="">
                     <input id="newsongname" type="text" placeholder="Name" name="">
                     <button class="btn btn-success btn-xs" onclick="addSong()">Add Song</button>
