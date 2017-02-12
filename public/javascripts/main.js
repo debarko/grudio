@@ -37,6 +37,7 @@ var Grudio = function() {
     this.showCategoryModal();
     this.songInteractionInit();
     this.fetchCategoryApi();
+    this.overlay.on('click', this.closeCategoryModal.bind(this));
 };
 Grudio.prototype.showCategoryModal = function() {
     $(this.overlay).addClass('show');
@@ -171,7 +172,17 @@ Grudio.prototype.renderCategoryModal = function(data) {
     $(this.mainWrapper).append(
         templateCategoryModal(data)
     );
+    this.categoryModal = $('#categorymodal');
+    this.closeCategoryModalBtn = $('.close-category-modal');
+    console.log(this.closeCategoryModalBtn);
+    this.closeCategoryModalBtn.on('click', this.closeCategoryModal.bind(this));
     console.log('html progress');
+};
+Grudio.prototype.closeCategoryModal = function() {
+    this.categoryModal.removeClass('show');
+    this.categoryModal.addClass('hide');
+    this.overlay.removeClass('show');
+    this.overlay.addClass('hide');
 };
 
 var gr = new Grudio();
