@@ -1,14 +1,3 @@
-var wavesurfer = WaveSurfer.create({
-	container: '#waveform',
-	waveColor: 'grey',
-	progressColor: 'purple',
-	scrollParent: true,
-	splitChannels: false,
-	height: 140,
-	interact:false
-});
-
-
 function init(){
 	startPlay(startingSong, startTime, function(){
 		getNextSong(0);
@@ -115,6 +104,15 @@ var curSongFullData = null;
 
 $(document).ready(function(){
 	init();
+	var wavesurfer = WaveSurfer.create({
+		container: '#waveform',
+		waveColor: 'grey',
+		progressColor: 'purple',
+		scrollParent: true,
+		splitChannels: false,
+		height: 140,
+		interact:false
+	});
 });
 
 
