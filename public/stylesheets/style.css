@@ -238,12 +238,7 @@ html, body{
     transition: 0.3s;
     display: none;
 }
-.modal-show {
-    opacity: 1;
-}
-.modal-hide {
-    opacity: 0;
-}
+
 #categorymodal h1 {
     font-size: 20px;
     text-align: center;
