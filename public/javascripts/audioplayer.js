@@ -81,7 +81,7 @@ function getNextSong(refresh){
 
 function reqCurSong(callback){
 	$.ajax({
-		url:"http://localhost:8989/syncPlayer?category=1&user=1",
+		url:"/syncPlayer?category=1&user=1",
 		type:"GET",
 		dataType: "json",
 		contentType: "application/json; charset=utf-8",
