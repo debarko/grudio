@@ -33,10 +33,10 @@ var knex = require('knex')({
     Bookshelf = require('bookshelf'),
     messages = require('./util/messages');
 
-var memcached = new Memcached('ec2-35-167-10-53.us-west-2.compute.amazonaws.com:11211');
+//var memcached = new Memcached('ec2-35-167-10-53.us-west-2.compute.amazonaws.com:11211');
 var app = express();
 app.knexRef = knex;
-app.memcacheRef = memcached;
+//app.memcacheRef = memcached;
 
 Bookshelf.mysqlAuth = Bookshelf(knex);
 

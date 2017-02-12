@@ -23,7 +23,8 @@ function init(){
 }
 
 function startPlay(audioUrl, startTime, callback){
-	wavesurfer.load(audioUrl);
+	console.log(curSongFullData);
+    wavesurfer.load(audioUrl);
 
 	wavesurfer.on('ready', function () {
 		wavesurfer.play(startTime);

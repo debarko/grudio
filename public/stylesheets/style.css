@@ -214,3 +214,54 @@ html, body{
 .player-action .downvote.active .downvote-icon {
     background-image: url(/images/list_dis_like_select.png);
 }
+#categorymodal {
+    z-index: 21;
+    width: 70vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border: 1px solid #ececec;
+    height: 60vh;
+    padding: 10px;
+}
+.overlay {
+    background: rgba(0,0,0,0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    transition: 0.3s;
+    display: none;
+}
+.modal-show {
+    opacity: 1;
+}
+.modal-hide {
+    opacity: 0;
+}
+#categorymodal h1 {
+    font-size: 20px;
+    text-align: center;
+}
+#categorymodal ul {
+    padding: 0;
+    list-style: none;
+}
+#categorymodal ul li {
+    display: inline-block;
+    margin: 5px;
+}
+#categorymodal button {
+    color: #333;
+    background-color: #fff;
+    border: 1px solid;
+    outline: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    border-color: #ccc;
+}

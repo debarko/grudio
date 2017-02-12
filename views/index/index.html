@@ -22,10 +22,14 @@
 		<div id="list-songs-wrapper">
 			{% include 'listsongs.html' %}
 		</div>
+    <div class="overlay"></div>
 	</div>
   <!-- BEGIN: Underscore Template Definition. -->
   <script type="text/template" class="songs-template">
     {% include '../../public/javascripts/templates/songs.html' %}
+  </script>
+  <script type="text/template" class="categorymodal-template">
+    {% include '../../public/javascripts/templates/categorymodal.html' %}
   </script>
 	<script src="javascripts/vendor/jquery/jquery.min.js"></script>
 	<script src="javascripts/vendor/bootsrap/bootstrap.min.js"></script>

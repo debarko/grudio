@@ -1,7 +1,10 @@
 "use strict";
 _.templateSettings.variable = "rc";
-var template = _.template(
+var templateSong = _.template(
     $( ".songs-template" ).html()
+);
+var templateCategoryModal = _.template(
+    $( ".categorymodal-template" ).html()
 );
 var isLoggedin = true;
 var userOnArticleReq = function(feature, featureValue, articleid, url, fetchDataApi) {
@@ -29,7 +32,14 @@ var userOnArticleReq = function(feature, featureValue, articleid, url, fetchData
 var Grudio = function() {
     this.songsList = $('.song-list');
     this.songs = $(this.songsList).children('.song-item');
+    this.overlay = $('.overlay');
+    this.mainWrapper = $('#main-wrapper');
+    this.showCategoryModal();
     this.songInteractionInit();
+    this.fetchCategoryApi();
+};
+Grudio.prototype.showCategoryModal = function() {
+    $(this.overlay).addClass('show');
 };
 Grudio.prototype.songInteractionInit = function() {
     var self;
@@ -105,7 +115,7 @@ Grudio.prototype.downvoted = function(downvoteButton, songid, fetchDataApi) {
         }
     }
 };
-Grudio.prototype.fetchDataApi = function() {
+Grudio.prototype.fetchDataApi = function(apiurl) {
     var dataValue;
     var self = this;
     dataValue = {
@@ -126,14 +136,42 @@ Grudio.prototype.fetchDataApi = function() {
       console.log( "Request failed: " + textStatus );
     });
 };
+Grudio.prototype.fetchCategoryApi = function() {
+    var dataValue;
+    var self = this;
+    dataValue = {
+        song_id : 1,
+    };
+    //dataValue[feature] = featureValue;
+    var request = $.ajax({
+        url: "http://localhost:8989/category",
+        method: "GET"
+    });
+    request.done(function(data) {
+      console.log(data);
+      self.renderCategoryModal.call(self, data);
+    });
+
+    request.fail(function( jqXHR, textStatus ) {
+      console.log( "Request failed: " + textStatus );
+    });
+};
 Grudio.prototype.fillSongTemplate = function(data) {
     var self = this;
     console.log(data);
     //$(this.songsList).html(template);
     $(this.songsList).html(
-        template(data)
+        templateSong(data)
     );
     console.log('html in progress');
+};
+Grudio.prototype.renderCategoryModal = function(data) {
+    var self = this;
+    console.log(this.mainWrapper);
+    $(this.mainWrapper).append(
+        templateCategoryModal(data)
+    );
+    console.log('html progress');
 };
 
 var gr = new Grudio();
