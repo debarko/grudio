@@ -1,5 +1,21 @@
 var grudioModel = require('../models/grudiomodel')();
 
+(function() {
+    Date.prototype.toYMD = Date_toYMD;
+    function Date_toYMD() {
+        var year, month, day;
+        year = String(this.getFullYear());
+        month = String(this.getMonth() + 1);
+        if (month.length == 1) {
+            month = "0" + month;
+        }
+        day = String(this.getDate());
+        if (day.length == 1) {
+            day = "0" + day;
+        }
+        return year + "-" + month + "-" + day;
+    }
+})();
 
 /**
   @PARAMS OBJ
@@ -47,12 +63,36 @@ exports.postSongs = function(req, res) {
   var songName = req.body.name;
   var category = req.body.category;    // might be changed
   var url      = req.body.url;
-  var user_id  = req.user.id;                    // hardcode needs to be changed
+  var user_id  = req.body.user;                    // hardcode needs to be changed
+  var YoutubeMp3Downloader = require('youtube-mp3-downloader');
+  //Configure YoutubeMp3Downloader with your settings 
+  var YD = new YoutubeMp3Downloader({
+        "ffmpegPath": "/opt/local/bin/ffmpeg",        // Where is the FFmpeg binary located? 
+        "outputPath": "public/songs/",    // Where should the downloaded and encoded files be stored? 
+        "youtubeVideoQuality": "lowest",       // What video quality should be used?
+        "queueParallelism": 3,                  // How many parallel downloads/encodes should be started? 
+        "progressTimeout": 2000                 // How long should be the interval of the progress reports 
+  });
+    YD.on("finished", function(data) {
+        console.log(data);
+        res.end('success');
+    });
+    
+    YD.on("error", function(error) {
+        console.log(error);
+        res.end('error');
+    });
+    
+    YD.on("progress", function(progress) {
+        console.log(progress);
+    });
   if(isEmpty(songName) || isEmpty(category) || isEmpty(url)){
     res.json("either name or category, or url is missing");
   }
-  new grudioModel.songsModel({name: songName, category_id: category, url: url, user_id: user_id}).save().then(function(model){
+  new grudioModel.songsModel({name: songName, created: (new Date()).toYMD(), category_id: category, url: url, user_id: user_id}).save().then(function(model){
     res.json("Added")
+    var vidUrl = url.split("?")[1].split("=")[1];
+    YD.download(vidUrl);
   }, function(err){
     console.log(err);
     res.json("unable to process request");

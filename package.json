@@ -29,7 +29,9 @@
     "serve-static": "^1.9.3",
     "swig": "^1.4.2",
     "underscore": "^1.8.3",
-    "view-helpers": "^0.1.5"
+    "view-helpers": "^0.1.5",
+    "youtube-mp3": "^0.1.2",
+    "youtube-mp3-downloader": "^0.4.4"
   },
   "devDependencies": {
     "nodemon": "latest"

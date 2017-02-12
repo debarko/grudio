@@ -127,7 +127,7 @@ Grudio.prototype.fetchDataApi = function(apiurl) {
     };
     //dataValue[feature] = featureValue;
     var request = $.ajax({
-        url: "http://localhost:8989/syncPlaylist?category=1&user=1",
+        url: "/syncPlaylist?category=1&user=1",
         method: "GET"
     });
     request.done(function(data) {
@@ -148,7 +148,7 @@ Grudio.prototype.fetchCategoryApi = function() {
     };
     //dataValue[feature] = featureValue;
     var request = $.ajax({
-        url: "http://localhost:8989/category",
+        url: "/category",
         method: "GET"
     });
     request.done(function(data) {
