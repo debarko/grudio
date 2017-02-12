@@ -1,10 +1,10 @@
 <div id="categorymodal" class="show">
     <button class="pull-right close-category-modal">Close</button>
     <h1>Please select the Category you want to listen to!</h1>
-    <ul>
+    <ul class="category-template-list">
         <% _.each(rc, function(category){ %>
             <li>
-                <button class="btn-default" data-categoryid="<%- category.id %>"><%- category.name %></button>
+                <button class="btn-default category-item" data-categoryid="<%- category.id %>"><%- category.name %></button>
             </li>
         <% }); %>
     </ul>

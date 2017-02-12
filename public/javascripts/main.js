@@ -6,6 +6,9 @@ var templateSong = _.template(
 var templateCategoryModal = _.template(
     $( ".categorymodal-template" ).html()
 );
+var templateCategoryMenu = _.template(
+    $( ".categorymenu-template" ).html()
+);
 var isLoggedin = true;
 var userOnArticleReq = function(feature, featureValue, articleid, url, fetchDataApi) {
     var dataValue;
@@ -151,6 +154,9 @@ Grudio.prototype.fetchCategoryApi = function() {
     request.done(function(data) {
       console.log(data);
       self.renderCategoryModal.call(self, data);
+      $('#leftmenu-wrapper').append(
+          templateCategoryMenu(data)
+      );
     });
 
     request.fail(function( jqXHR, textStatus ) {
@@ -174,9 +180,17 @@ Grudio.prototype.renderCategoryModal = function(data) {
     );
     this.categoryModal = $('#categorymodal');
     this.closeCategoryModalBtn = $('.close-category-modal');
-    console.log(this.closeCategoryModalBtn);
+    this.categoryTemplateList = $('.category-template-list').find('.category-item');
     this.closeCategoryModalBtn.on('click', this.closeCategoryModal.bind(this));
-    console.log('html progress');
+    this.categoryTemplateList.each(function() {
+        self.selectCategoryOption.call(this);
+    });
+};
+Grudio.prototype.selectCategoryOption = function() {
+    var categoryid = $(this).data('categoryid');
+    $(this).on('click', function() {
+
+    });
 };
 Grudio.prototype.closeCategoryModal = function() {
     this.categoryModal.removeClass('show');
