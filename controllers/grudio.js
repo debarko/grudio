@@ -214,10 +214,10 @@ function resetSong(id, req, cb) {
 }
 
 exports.toggleFeature = function(req, res){
-  console.log("in toggle");
+  // console.log("in toggle");
   //user_id = req.user.id;
   user_id = 1;
-  song_id = req.body.songid;
+  song_id = parseInt(req.body.song_id);
   upvote = req.body.upvote;
   downvote = req.body.downvote;
   song_is_playing = req.body.song_is_playing;
@@ -225,9 +225,8 @@ exports.toggleFeature = function(req, res){
 
   req.app.knexRef.raw('SELECT * FROM songs, user_songs WHERE user_songs.sond_id = songs.id AND songs.id = ? AND user_songs.user_id = ? limit 1', [song_id, user_id])
   .then(function(result) {
-
       if(isEmpty(result[0])){
-        console.log("in first query2");
+        // console.log("in first query2");
         // user actitvity for first time
         if(upvote == 1 || upvote == '1'){
             var udata = {user_id: user_id, sond_id: song_id, upvote:1, downvote: 0}
@@ -246,8 +245,11 @@ exports.toggleFeature = function(req, res){
         // console.log("in else");
         // user has made any change
         // old_upvote =
-        var old_upvote = result[0]['upvote'];
-        var old_downvote = result[0]['downvote'];
+        var old_upvote = result[0][0]['upvote'];
+        var old_downvote = result[0][0]['downvote'];
+        // console.log(old_upvote);
+        // console.log(result[0]);
+        // console.log(upvote);
         if(old_upvote == 1 && (upvote == 1 || upvote == '1')){
             upvote = 0;
         } else if(old_downvote == 1 && (downvote == 1 || downvote == '1')){
@@ -261,15 +263,23 @@ exports.toggleFeature = function(req, res){
             var sql = "UPDATE user_songs SET downvote = 0 where id = ?";
         } else if(upvote == 1 || upvote == '1'){
           // console.log("in else3");
-          var sql = "UPDATE user_songs SET upvote = 1  where id = ?";
+          var sql = "UPDATE user_songs SET upvote = 1, downvote = 0  where id = ?";
         } else if(downvote == 1 || downvote == '1'){
           // console.log("in else4");
-          var sql = "UPDATE user_songs SET downvote = 1 where id = ?";
+          var sql = "UPDATE user_songs SET downvote = 1, upvote = 0 where id = ?";
         } else{
           // console.log("in else5");
-          var sql = "UPDATE user_songs SET upvote = 1, downvote = 1 where id = ?";
+          var sql = "UPDATE user_songs SET upvote = 0, downvote = 0 where id = ?";
         }
-        req.app.knexRef.raw(sql, [result[0]['id']]).then(function(result){res.json("Sucessfull")}, function(err){res.end(err)});
+        req.app.knexRef.raw(sql, [result[0][0]['id']])
+        .then(
+          function(result){
+            // console.log(result);
+            res.json("Sucessfull")
+          }, 
+          function(err){
+            res.end(err)
+          });
       }
   }, function(error){
     res.end(error);

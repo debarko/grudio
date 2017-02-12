@@ -40,6 +40,7 @@ var app = express();
 app.knexRef = knex;
 app.memcacheRef = memcached;
 app.queRef = queue;
+app.memcacheRef = memcached;
 
 Bookshelf.mysqlAuth = Bookshelf(knex);
 
