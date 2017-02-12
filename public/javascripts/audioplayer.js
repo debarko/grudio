@@ -113,9 +113,7 @@ $(document).ready(function(){
 		height: 140,
 		interact:false
 	});
+	window.setInterval(function(){
+		getNextSong(1);
+	}, 5000);
 });
-
-
-window.setInterval(function(){
-	getNextSong(1);
-}, 5000);
