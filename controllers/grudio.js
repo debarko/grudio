@@ -47,7 +47,7 @@ exports.postSongs = function(req, res) {
   var songName = req.body.name;
   var category = req.body.category;    // might be changed
   var url      = req.body.url;
-  var user_id  = req.user.id;                    // hardcode needs to be changed
+  var user_id  = 1;                    // hardcode needs to be changed
   if(isEmpty(songName) || isEmpty(category) || isEmpty(url)){
     res.json("either name or category, or url is missing");
   }

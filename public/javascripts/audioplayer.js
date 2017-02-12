@@ -2,7 +2,7 @@ var wavesurfer = WaveSurfer.create({
 	container: '#waveform',
 	waveColor: 'grey',
 	progressColor: 'purple',
-	scrollParent: true,
+	scrollParent: false,
 	splitChannels: false,
 	height: 140,
 	interact:false
@@ -121,3 +121,38 @@ $(document).ready(function(){
 window.setInterval(function(){
 	getNextSong(1);
 }, 5000);
+
+
+
+
+
+
+
+
+function addSong(){
+	var newSongUrl = document.getElementById('newsongurl').value;
+	var newSongName = document.getElementById('newsongname').value;
+
+	var dataForAjaxRequest = {};
+	dataForAjaxRequest.name = newSongName;
+	dataForAjaxRequest.category = 1;
+	dataForAjaxRequest.url = newSongUrl;
+	$.ajax({
+		url:"/song",
+		type:"POST",
+		data:JSON.stringify(dataForAjaxRequest),
+		dataType: "json",
+		contentType: "application/json; charset=utf-8",
+		cache: false,
+		success: function(data){
+			alert(data);
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown){
+			//alert('err');
+			console.log(textStatus);
+			console.log(XMLHttpRequest);
+			alert("Status: " + textStatus);
+			alert("Error: " + errorThrown);
+		}
+	});
+}
