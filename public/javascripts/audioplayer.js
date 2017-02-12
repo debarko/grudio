@@ -24,6 +24,11 @@ function init(){
 
 function startPlay(audioUrl, startTime, callback){
 	console.log(curSongFullData);
+    if(curSongFullData) {
+        if(curSongFullData.name) {
+            $('#current-song-played').html(curSongFullData.name);
+        }
+    }
     wavesurfer.load(audioUrl);
 
 	wavesurfer.on('ready', function () {

@@ -6,6 +6,9 @@ var templateSong = _.template(
 var templateCategoryModal = _.template(
     $( ".categorymodal-template" ).html()
 );
+var templateCategoryMenu = _.template(
+    $( ".categorymenu-template" ).html()
+);
 var isLoggedin = true;
 var userOnArticleReq = function(feature, featureValue, articleid, url, fetchDataApi) {
     var dataValue;
@@ -34,10 +37,10 @@ var Grudio = function() {
     this.songs = $(this.songsList).children('.song-item');
     this.overlay = $('.overlay');
     this.mainWrapper = $('#main-wrapper');
-    this.showCategoryModal();
+    //this.showCategoryModal();
     this.songInteractionInit();
     this.fetchCategoryApi();
-    this.overlay.on('click', this.closeCategoryModal.bind(this));
+    //this.overlay.on('click', this.closeCategoryModal.bind(this));
 };
 Grudio.prototype.showCategoryModal = function() {
     $(this.overlay).addClass('show');
@@ -150,7 +153,30 @@ Grudio.prototype.fetchCategoryApi = function() {
     });
     request.done(function(data) {
       console.log(data);
-      self.renderCategoryModal.call(self, data);
+      //self.renderCategoryModal.call(self, data);
+      $('#leftmenu-wrapper').append(
+          templateCategoryMenu(data)
+      );
+      $('.category-menu-list').find('.category-menu-item').each(function() {
+        var categoryid = $(this).data('categoryid');
+        $(this).on('click', function() {
+            var request = $.ajax({
+                url: "/syncPlaylist?category="+categoryid+"&user=1",
+                method: "GET"
+            });
+            request.done(function(data) {
+              console.log(data);
+              $('.song-list').html(
+                  templateSong(data)
+              );
+              var gr = new Grudio();
+            });
+
+            request.fail(function( jqXHR, textStatus ) {
+              console.log( "Request failed: " + textStatus );
+            });
+        });
+      });
     });
 
     request.fail(function( jqXHR, textStatus ) {
@@ -174,9 +200,31 @@ Grudio.prototype.renderCategoryModal = function(data) {
     );
     this.categoryModal = $('#categorymodal');
     this.closeCategoryModalBtn = $('.close-category-modal');
-    console.log(this.closeCategoryModalBtn);
+    this.categoryTemplateList = $('.category-template-list').find('.category-item');
     this.closeCategoryModalBtn.on('click', this.closeCategoryModal.bind(this));
-    console.log('html progress');
+    this.categoryTemplateList.each(function() {
+        self.selectCategoryOption.call(this);
+    });
+};
+Grudio.prototype.selectCategoryOption = function() {
+    var categoryid = $(this).data('categoryid');
+    $(this).on('click', function() {
+        var request = $.ajax({
+            url: "/syncPlaylist?category="+categoryid+"&user=1",
+            method: "GET"
+        });
+        request.done(function(data) {
+          console.log(data);
+          $('.song-list').html(
+              templateSong(data)
+          );
+          var gr = new Grudio();
+        });
+
+        request.fail(function( jqXHR, textStatus ) {
+          console.log( "Request failed: " + textStatus );
+        });
+    });
 };
 Grudio.prototype.closeCategoryModal = function() {
     this.categoryModal.removeClass('show');
