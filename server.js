@@ -39,7 +39,7 @@ var memcached = new Memcached('ec2-35-167-10-53.us-west-2.compute.amazonaws.com:
 var app = express();
 app.knexRef = knex;
 app.memcacheRef = memcached;
-app.queRef = queue || 0;
+app.queRef = 0;
 app.memcacheRef = memcached;
 
 Bookshelf.mysqlAuth = Bookshelf(knex);
