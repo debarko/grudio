@@ -169,6 +169,7 @@ Grudio.prototype.fetchCategoryApi = function() {
               $('.song-list').html(
                   templateSong(data)
               );
+              var gr = new Grudio();
             });
 
             request.fail(function( jqXHR, textStatus ) {
@@ -217,6 +218,7 @@ Grudio.prototype.selectCategoryOption = function() {
           $('.song-list').html(
               templateSong(data)
           );
+          var gr = new Grudio();
         });
 
         request.fail(function( jqXHR, textStatus ) {
